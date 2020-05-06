@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caoxianfei.dao.HouseDao">
+
+		<insert id="addHouse">
+			insert into house_dingdan values (0,#{h.htime},#{h.hname},#{h.phone},#{h.id},#{h.scope})
+		</insert>
+
+		<select id="list" resultType="House_DingDan">
+			select * from house_dingdan hd left join house_type h on hd.id = h.id
+			<where>
+					<if test="hname !=null and hname!=''">
+						hd.hname like concat('%',#{hname},'%')
+					</if>
+					<if test="phone !=null and phone !=''">
+						and hd.phone like concat('%',#{phone},'%')
+					</if>														<!-- 查询方法的所有条件 -->
+					<if test="name !=null and name !=''">
+						and h.name like concat('%',#{name},'%')
+					</if>
+					<if test="f1 !=null and f2!=''">
+						and h.price >= #{f1}
+					</if>
+					<if test="f2 !=null  and f2!=''">
+						and h.price &lt;= #{f2}
+					</if>
+					<if test="t1 !=null and t1 !=''">
+						and hd.htime >= #{t1}
+					</if>
+					<if test="t2 !=null and t2 !=''">
+						and hd.htime &lt;= #{t2}
+					</if>
+			</where>
+			
+		</select>
+
+</mapper>
